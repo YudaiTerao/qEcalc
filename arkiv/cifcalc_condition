@@ -1,0 +1,24 @@
+#!/bin/bash/
+
+MP="/home/terao/.qEcalc"
+CALCTEMP_PATH="$MP/makecalc/Calc_Template"
+C2QEms_PATH="$MP/cif2qewan_v.1.3"
+
+CALC_PATH="/home/terao/calc"
+C2QE_PATH="/home/terao/input"
+PP_PATH="/home/terao/pseudo"
+C2CELL_PATH="/home/terao/anaconda3/bin/cif2cell"
+TRASH_PATH="/home/terao/trash"
+DATA_PATH="/home/terao/data"
+WORK_PATH="$DATA_PATH/allwork"
+
+if [ ! -e $CALC_PATH ]; then mkdir $CALC_PATH; fi
+#if [ ! -e $C2QE_PATH ]; then mkdir $C2QE_PATH; fi
+if [ ! -e $TRASH_PATH ]; then mkdir $TRASH_PATH; fi
+#if [ ! -e $DATA_PATH ]; then mkdir $DATA_PATH; fi
+#if [ ! -e $WORK_PATH ]; then mkdir $WORK_PATH; fi
+
+MN_start=""
+MN_end=".cif"
+
+

@@ -1,0 +1,152 @@
+#!/bin/bash
+alias qecmd='vim ~/.qEcalc/qEcalc/qEcmd'
+
+############################
+########## 移動系 ##########
+############################
+
+alias ccn='cd ~/calc'
+alias ddn='cd ~/desk'
+alias cl='cd ~/library'
+alias cq='cd ~/.qEcalc'
+
+function cr(){
+    nc=`pwd`'/'
+    nowcalc=${nc#/home/terao/calc/}
+    if [ "$nowcalc" = "$nc" ] || [ "$nowcalc" = "" ]; then
+        echo 'result dir not found'
+    else
+        nowcalc=${nowcalc%%\/*}
+        cd /home/terao/calc/$nowcalc/result
+    fi
+}
+
+function ci(){
+    nc=`pwd`'/'
+    nowcalc=${nc#/home/terao/calc/}
+    if [ "$nowcalc" = "$nc" ] || [ "$nowcalc" = "" ]; then
+        echo 'input dir not found'
+    else 
+        nowcalc=${nowcalc%%\/*}
+        cd /home/terao/calc/$nowcalc/input
+    fi
+}
+
+function cc(){
+    cd /home/terao/calc
+    calcs=( `l -1 | grep / | sed -e "s/\///g" | sort -k 1` )
+    group=${calcs[0]%%_*}
+    flag=0
+    case $# in
+    '0'     )
+        i=0
+        for clc in "${calcs[@]}" ; do
+            if [ ${clc%%_*} != $group ]; then echo ""; fi
+            echo -e "[$i]\t$clc"
+            group=${clc%%_*}
+            i=$((i+1))
+        done
+        echo -e "\nplease enter the calc No"
+        read -p ":" No ;;
+    '1'     ) No="$1"  ;;
+    *       ) echo "cc: argument false"; flag=1 ;;
+    esac
+    if [ $flag -eq 0 ]; then
+
+    if [ $No != 'n' ]; then
+        echo "cd ${calcs[$No]}"
+        cd ${calcs[$No]}
+    fi; fi
+}
+
+function dr(){
+    nc=`pwd`'/'
+    nowcalc=${nc#/home/terao/desk/}
+    if [ "$nowcalc" = "$nc" ] || [ "$nowcalc" = "" ]; then
+        echo 'result dir not found'
+    else
+        nowcalc=${nowcalc%%\/*}
+        cd /home/terao/calc/$nowcalc/result
+    fi
+}
+
+function di(){
+    nc=`pwd`'/'
+    nowcalc=${nc#/home/terao/desk/}
+    if [ "$nowcalc" = "$nc" ] || [ "$nowcalc" = "" ]; then
+        echo 'input dir not found'
+    else 
+        nowcalc=${nowcalc%%\/*}
+        cd /home/terao/calc/$nowcalc/input
+    fi
+}
+
+function dd(){
+    cd /home/terao/desk
+    calcs=( `l -1 | grep / | sed -e "s/\///g" | sort -k 1` )
+    group=${calcs[0]%%_*}
+    flag=0
+    case $# in
+    '0'     )
+        i=0
+        for clc in "${calcs[@]}" ; do
+            if [ ${clc%%_*} != $group ]; then echo ""; fi
+            echo -e "[$i]\t$clc"
+            group=${clc%%_*}
+            i=$((i+1))
+        done
+        echo -e "\nplease enter the calc No"
+        read -p ":" No ;;
+    '1'     ) No="$1"  ;;
+    *       ) echo "cc: argument false"; flag=1 ;;
+    esac
+    if [ $flag -eq 0 ]; then
+
+    if [ $No != 'n' ]; then
+        echo "cd ${calcs[$No]}"
+        cd ${calcs[$No]}
+    fi; fi
+}
+
+###########################
+
+function qcal(){
+HOME_PATH="/home/terao/calc"
+case $1 in 
+"p" ) 
+    ls -1 $HOME_PATH/*/result | \
+    sed -z -e "s/\n/ /g" | \
+    sed -e "s/\/home\/terao\/calc\//\n/g" -e "s/\/result:/: /g" -e "s/calc_log//g"| \
+    column -t | sort -k 1    ;;
+"") 
+    bjobs | grep RUN | sed -e "s/zodiac.loca.//g" -e "s/.loc/  /g" -e "s/normal//g" 
+    echo ""
+    cat $HOME_PATH/*/condition | \
+    grep -e "MP=" -e "Aries_num=" -e "Cores_num=" -e "^Calc=" | \
+    sed -e "s/\/home\/terao\/calc\///g" -e "s/\"//g" -e "s/'//g" -e "s/Calc=//g" -e "s/(//g" -e "s/)//g" | \
+    sed -e "s/_num=/: /g" -z -e "s/\n/\t/g" -z -e "s/MP=/\n/g" | column -t | sort -k 3
+    echo "" ;;
+esac
+
+}
+
+alias crash='ls /home/terao/calc/*/result/*/ | grep -2 CRASH | grep /home/terao/calc | sed -e "s/\/home\/terao\/calc\//No./g" -e "s/\/result\//\t/g" -e "s/\/://g"'
+
+#function c2qe(){
+#    mv_c2qe.sh $@ #&& cd /home/terao/input/result 	
+#}
+#
+#function calc(){
+#CALC_PATH='/home/terao/calc'
+#flag=0
+#case $# in
+#'1' 	) mv_calc.sh $1 && vim $CALC_PATH/$1/condition ;;
+#'2'	) mv_calc.sh $1 $2 && vim $CALC_PATH/$2/condition ;;
+#*	) echo "calc: argument false"; flag=1 ;;
+#esac
+#if [ $flag -eq 1 ]; then exit 1; fi
+#}
+#
+#function save(){
+#	cifcalc_save.sh $1 $2 && ls /home/terao/data
+#}
